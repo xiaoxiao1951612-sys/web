@@ -294,7 +294,7 @@ export default function Home() {
                         className="text-center mb-12">
                         <h2 className="text-3xl font-bold mb-4">关于我</h2>
                         <p
-                            className={`max-w-2xl mx-auto ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>
+                            className={`max-w-2xl mx-auto text-left whitespace-pre-line ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>
                             {personalInfo.aboutMe || "我是一名热情的AI产品经理，拥有交通工程和自动驾驶领域的专业背景，擅长从用户需求出发，结合技术可行性，打造优秀的产品体验。"}
                         </p>
                     </motion.div>
