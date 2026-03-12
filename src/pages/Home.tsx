@@ -275,7 +275,14 @@ export default function Home() {
                     </div>
                 </section>
                 {}
-                <section id="about" className="py-16 border-t border-gray-800">
+                <section
+                    id="about"
+                    className={`py-16 border-t ${
+                        theme === "dark"
+                            ? "border-gray-800 bg-gray-950/60"
+                            : "border-gray-200 bg-transparent"
+                    }`}
+                >
                     <motion.div
                         initial={{
                             opacity: 0,
@@ -377,7 +384,14 @@ export default function Home() {
                     </div>
                 </section>
                 {}
-                <section id="portfolio" className="py-16 border-t border-gray-800">
+                <section
+                    id="portfolio"
+                    className={`py-16 border-t ${
+                        theme === "dark"
+                            ? "border-gray-800 bg-gray-950/60"
+                            : "border-gray-200 bg-transparent"
+                    }`}
+                >
                     <motion.div
                         initial={{
                             opacity: 0,
@@ -405,7 +419,13 @@ export default function Home() {
                     </div>
                 </section>
                 {}
-                <section className="py-16 border-t border-gray-800">
+                <section
+                    className={`py-16 border-t ${
+                        theme === "dark"
+                            ? "border-gray-800 bg-gray-950/60"
+                            : "border-gray-200 bg-transparent"
+                    }`}
+                >
                     <motion.div
                         initial={{
                             opacity: 0,
@@ -430,7 +450,14 @@ export default function Home() {
                     </div>
                 </section>
                 {}
-                <section id="contact" className="py-16 border-t border-gray-800">
+                <section
+                    id="contact"
+                    className={`py-16 border-t ${
+                        theme === "dark"
+                            ? "border-gray-800 bg-gray-950/60"
+                            : "border-gray-200 bg-transparent"
+                    }`}
+                >
                     <motion.div
                         initial={{
                             opacity: 0,
