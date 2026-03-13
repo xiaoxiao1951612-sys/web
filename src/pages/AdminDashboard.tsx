@@ -1,33 +1,37 @@
 import { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { LogOut, PlusSquare, Briefcase, User, Settings, ArrowLeft, Edit } from 'lucide-react';
+import { LogOut, PlusSquare, Briefcase, User, Settings, ArrowLeft, Edit, Trash2 } from 'lucide-react';
 import { useTheme } from '@/hooks/useTheme';
 import { AuthContext } from '@/contexts/authContext';
 import { toast } from 'sonner';
-import { getPortfolioItems, getExperiences, listenForDataUpdates, refreshResumeData, resetAllData } from '@/lib/dataService';
+import { getPortfolioItems, getExperiences, listenForDataUpdates, refreshResumeData, resetAllData, savePortfolioItems, saveExperiences } from '@/lib/dataService';
 
 export default function AdminDashboard() {
   const { theme } = useTheme();
   const { isAuthenticated, logout } = useContext(AuthContext);
   const navigate = useNavigate();
   const [projectCount, setProjectCount] = useState(getPortfolioItems().length);
+  const [projects, setProjects] = useState(getPortfolioItems());
   const [experiences, setExperiences] = useState(getExperiences());
 
   // 监听数据更新
   useEffect(() => {
     refreshResumeData().then(() => {
       setProjectCount(getPortfolioItems().length);
+      setProjects(getPortfolioItems());
       setExperiences(getExperiences());
     });
 
     const cleanup = listenForDataUpdates((dataType) => {
       if (dataType === 'portfolioItems') {
         setProjectCount(getPortfolioItems().length);
+        setProjects(getPortfolioItems());
       } else if (dataType === 'experiences') {
         setExperiences(getExperiences());
       } else if (dataType === 'all') {
         setProjectCount(getPortfolioItems().length);
+        setProjects(getPortfolioItems());
         setExperiences(getExperiences());
       }
     });
@@ -53,6 +57,39 @@ export default function AdminDashboard() {
   // 处理编辑实习经历
   const handleEditExperience = (index: number) => {
     navigate(`/admin/edit-experience/${index}`);
+  };
+
+  const handleDeleteExperience = async (index: number) => {
+    if (!window.confirm('确定要删除这条实习经历吗？此操作不可恢复！')) return;
+    try {
+      const next = experiences.filter((_, i) => i !== index);
+      const success = await saveExperiences(next);
+      if (!success) throw new Error('保存失败');
+      toast.success('实习经历已删除');
+      setExperiences(getExperiences());
+    } catch (e) {
+      console.error('删除实习经历失败:', e);
+      toast.error('删除失败，请重试');
+    }
+  };
+
+  const handleEditProject = (id: number) => {
+    navigate(`/admin/edit/${id}`);
+  };
+
+  const handleDeleteProject = async (id: number) => {
+    if (!window.confirm('确定要删除这个项目吗？此操作不可恢复！')) return;
+    try {
+      const next = projects.filter((p) => p.id !== id);
+      const success = await savePortfolioItems(next);
+      if (!success) throw new Error('保存失败');
+      toast.success('项目已删除');
+      setProjectCount(getPortfolioItems().length);
+      setProjects(getPortfolioItems());
+    } catch (e) {
+      console.error('删除项目失败:', e);
+      toast.error('删除失败，请重试');
+    }
   };
 
   return (
@@ -248,6 +285,89 @@ export default function AdminDashboard() {
                       <Edit size={12} />
                       编辑
                     </button>
+                    <button
+                      onClick={() => handleDeleteExperience(index)}
+                      className={`mt-2 ml-2 px-3 py-1.5 text-xs rounded-lg transition-colors inline-flex items-center gap-1 ${
+                        theme === 'dark'
+                          ? 'bg-red-900/30 hover:bg-red-900/50 text-red-300'
+                          : 'bg-red-100 hover:bg-red-200 text-red-700'
+                      }`}
+                    >
+                      <Trash2 size={12} />
+                      删除
+                    </button>
+                  </motion.div>
+                ))}
+              </div>
+            )}
+          </motion.div>
+
+          {/* 项目列表 */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.15 }}
+            className={`backdrop-blur-md rounded-xl p-6 border mb-12 ${
+              theme === 'dark'
+                ? 'bg-gray-900/50 border-gray-800'
+                : 'bg-white/90 border-gray-200'
+            }`}
+          >
+            <h2 className="text-xl font-semibold mb-6">项目管理</h2>
+
+            {projects.length === 0 ? (
+              <div className="text-center py-8">
+                <p className={theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}>
+                  暂无项目，点击“添加项目”按钮创建
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {projects.map((project) => (
+                  <motion.div
+                    key={project.id}
+                    className={`p-4 rounded-lg border ${
+                      theme === 'dark' ? 'border-gray-800' : 'border-gray-200'
+                    }`}
+                    whileHover={{ y: -2 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <div className="flex justify-between items-center mb-2">
+                      <div>
+                        <h3 className={`font-medium ${theme === 'dark' ? 'text-white' : 'text-gray-800'}`}>
+                          {project.title}
+                        </h3>
+                        <p className="text-purple-400 text-sm">{project.category}</p>
+                      </div>
+                      <span className={`text-xs ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>
+                        {project.date}
+                      </span>
+                    </div>
+
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      <button
+                        onClick={() => handleEditProject(project.id)}
+                        className={`px-3 py-1.5 text-xs rounded-lg transition-colors flex items-center gap-1 ${
+                          theme === 'dark'
+                            ? 'bg-blue-900/30 hover:bg-blue-800/50 text-blue-300'
+                            : 'bg-blue-100 hover:bg-blue-200 text-blue-800'
+                        }`}
+                      >
+                        <Edit size={12} />
+                        编辑
+                      </button>
+                      <button
+                        onClick={() => handleDeleteProject(project.id)}
+                        className={`px-3 py-1.5 text-xs rounded-lg transition-colors flex items-center gap-1 ${
+                          theme === 'dark'
+                            ? 'bg-red-900/30 hover:bg-red-900/50 text-red-300'
+                            : 'bg-red-100 hover:bg-red-200 text-red-700'
+                        }`}
+                      >
+                        <Trash2 size={12} />
+                        删除
+                      </button>
+                    </div>
                   </motion.div>
                 ))}
               </div>

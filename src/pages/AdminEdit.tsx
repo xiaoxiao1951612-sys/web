@@ -200,6 +200,21 @@ import { useState, useEffect, useContext } from 'react';
       });
     };
     
+    // 将某张图片设为主图（通过调整顺序）
+    const setAsCoverImage = (index: number) => {
+      setProject(prev => {
+        if (!prev) return null;
+        const nextImages = [...prev.images];
+        const [selected] = nextImages.splice(index, 1);
+        nextImages.unshift(selected);
+        return {
+          ...prev,
+          images: nextImages,
+          image: nextImages[0]
+        };
+      });
+    };
+    
     // 保存项目修改
     const handleSaveProject = async () => {
       if (!project) return;
@@ -568,28 +583,44 @@ import { useState, useEffect, useContext } from 'react';
               {/* 图片列表 */}
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
                 {project.images.map((img, index) => (
-                  <div key={index} className="relative group">
-                    <div className="aspect-video overflow-hidden rounded-lg border">
-                      <img
-                        src={img}
-                        alt={`图片 ${index + 1}`}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    {project.images.length > 1 && (
-                      <button
-                        onClick={() => removeImage(index)}
-                        className="absolute -top-2 -right-2 p-1.5 bg-red-600 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-                        aria-label="删除图片"
-                      >
-                        <Trash2 size={14} />
-                      </button>
-                    )}
-                    {img === project.image && (
-                      <div className="absolute bottom-2 right-2 px-2 py-1 bg-purple-600 text-white text-xs rounded">
-                        主图
+                  <div key={index} className="space-y-2">
+                    <div className="relative group">
+                      <div className="aspect-video overflow-hidden rounded-lg border">
+                        <img
+                          src={img}
+                          alt={`图片 ${index + 1}`}
+                          className="w-full h-full object-cover"
+                        />
                       </div>
-                    )}
+                      {project.images.length > 1 && (
+                        <button
+                          onClick={() => removeImage(index)}
+                          className="absolute -top-2 -right-2 p-1.5 bg-red-600 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                          aria-label="删除图片"
+                        >
+                          <Trash2 size={14} />
+                        </button>
+                      )}
+                      {img === project.image && (
+                        <div className="absolute bottom-2 right-2 px-2 py-1 bg-purple-600 text-white text-xs rounded">
+                          主图
+                        </div>
+                      )}
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setAsCoverImage(index)}
+                      className={`w-full px-2 py-1 text-xs rounded-md border transition-colors ${
+                        img === project.image
+                          ? 'bg-purple-600 text-white border-purple-600 cursor-default'
+                          : theme === 'dark'
+                            ? 'bg-gray-800 text-gray-200 border-gray-700 hover:bg-gray-700'
+                            : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100'
+                      }`}
+                      disabled={img === project.image}
+                    >
+                      {img === project.image ? '当前主图' : '设为主图'}
+                    </button>
                   </div>
                 ))}
               </div>
