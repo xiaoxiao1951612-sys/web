@@ -5,6 +5,7 @@ import { useState, useContext, useEffect } from 'react';
   import { useTheme } from '@/hooks/useTheme';
   import { AuthContext } from '@/contexts/authContext';
   import { toast } from 'sonner';
+  import { supabase } from '@/lib/supabaseClient';
   import { PortfolioItem, getPortfolioItems, refreshResumeData, savePortfolioItems } from '@/lib/dataService';
 
   export default function AdminAddProject() {
@@ -132,7 +133,7 @@ import { useState, useContext, useEffect } from 'react';
     };
     
     // 添加新图片（上传方式）
-    const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
       const file = e.target.files?.[0];
       if (file) {
         // 检查文件类型
@@ -147,12 +148,33 @@ import { useState, useContext, useEffect } from 'react';
           return;
         }
         
-        // 创建文件读取器
-        const reader = new FileReader();
-        
-        // 读取文件完成后的回调
-        reader.onload = (event) => {
-          const imageUrl = event.target?.result as string;
+        try {
+          // 创建唯一的文件名
+          const fileName = `portfolio/${Date.now()}-${Math.random().toString(36).substr(2, 9)}-${file.name}`;
+          
+          // 上传图片到Supabase Storage
+          const { data, error } = await supabase
+            .storage
+            .from('portfolio-images')
+            .upload(fileName, file, {
+              cacheControl: '3600',
+              upsert: false
+            });
+          
+          if (error) {
+            console.error('上传图片失败:', error);
+            toast.error('上传图片失败，请重试');
+            return;
+          }
+          
+          // 获取公共URL
+          const { data: urlData } = supabase
+            .storage
+            .from('portfolio-images')
+            .getPublicUrl(fileName);
+          
+          const imageUrl = urlData.publicUrl;
+          
           setProject(prev => ({
             ...prev,
             images: [...prev.images, imageUrl],
@@ -163,13 +185,15 @@ import { useState, useContext, useEffect } from 'react';
           // 显示预览并3秒后清除预览
           setPreviewImage(imageUrl);
           setTimeout(() => setPreviewImage(null), 3000);
-        };
-        
-        // 以DataURL形式读取文件
-        reader.readAsDataURL(file);
-        
-        // 清空input值，允许重复选择同一文件
-        e.target.value = '';
+          
+          toast.success('图片上传成功！');
+        } catch (error) {
+          console.error('上传图片过程中出错:', error);
+          toast.error('上传图片失败，请重试');
+        } finally {
+          // 清空input值，允许重复选择同一文件
+          e.target.value = '';
+        }
       }
     };
     
