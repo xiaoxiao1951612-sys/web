@@ -109,15 +109,15 @@ export const getDefaultData = (): ResumeData => {
   const defaultData: ResumeData = {
     personalInfo: {
       name: "赵梓皓",
-      title: "校招生 | AI产品经理 | 自动驾驶方向",
+      title: "求职意向 | 产品经理 ",
       age: "25岁",
       gender: "男",
       city: "浙江",
       researchDirection: "自动驾驶",
       email: "2431867@tongji.edu.cn",
       phone: "19857523357",
-      availableTime: "一周内到岗",
-      aboutMe: "我是一名热情的AI产品经理，拥有交通工程和自动驾驶领域的专业背景，擅长从用户需求出发，结合技术可行性，打造优秀的产品体验。",
+      availableTime: "可实习3-6个月",
+      aboutMe: "加载中",
       education: [
         {
           level: "硕士",

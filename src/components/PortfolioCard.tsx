@@ -11,6 +11,7 @@ interface PortfolioItem {
     description: string;
     date: string;
     image: string;
+    images?: string[];
 }
 
 export const PortfolioCard = (
@@ -23,6 +24,9 @@ export const PortfolioCard = (
     const {
         theme
     } = useTheme();
+
+    const cover =
+        item.images && item.images.length > 0 ? item.images[0] : item.image;
 
     return (
         <motion.div
@@ -47,7 +51,7 @@ export const PortfolioCard = (
             }}>
             <div className="h-48 overflow-hidden">
                 <img
-                    src={item.image}
+                    src={cover}
                     alt={item.title}
                     className="w-full h-full object-cover transition-transform hover:scale-105 duration-500" />
             </div>

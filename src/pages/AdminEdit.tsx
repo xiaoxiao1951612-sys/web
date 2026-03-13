@@ -121,12 +121,16 @@ import { useState, useEffect, useContext } from 'react';
     // 添加新图片（URL方式）
     const addImageByUrl = () => {
       if (newImageUrl.trim()) {
-        setProject(prev => prev ? {
-          ...prev,
-          images: [...prev.images, newImageUrl.trim()],
-          // 如果是第一张图片，同时设置为主图
-          image: prev.images.length === 0 ? newImageUrl.trim() : prev.image
-        } : null);
+        setProject(prev => {
+          if (!prev) return null;
+          const nextImages = [...prev.images, newImageUrl.trim()];
+          return {
+            ...prev,
+            images: nextImages,
+            // 主图始终与第一张图片保持一致
+            image: nextImages[0]
+          };
+        });
         setNewImageUrl('');
       }
     };
@@ -153,12 +157,16 @@ import { useState, useEffect, useContext } from 'react';
         // 读取文件完成后的回调
         reader.onload = (event) => {
           const imageUrl = event.target?.result as string;
-          setProject(prev => prev ? {
-            ...prev,
-            images: [...prev.images, imageUrl],
-            // 如果是第一张图片，同时设置为主图
-            image: prev.images.length === 0 ? imageUrl : prev.image
-          } : null);
+          setProject(prev => {
+            if (!prev) return null;
+            const nextImages = [...prev.images, imageUrl];
+            return {
+              ...prev,
+              images: nextImages,
+              // 主图始终与第一张图片保持一致
+              image: nextImages[0]
+            };
+          });
           
           // 显示预览并3秒后清除预览
           setPreviewImage(imageUrl);
@@ -180,12 +188,16 @@ import { useState, useEffect, useContext } from 'react';
         return;
       }
       
-      setProject(prev => prev ? {
-        ...prev,
-        images: prev.images.filter((_, i) => i !== index),
-        // 如果删除的是主图，更新主图为第一张
-        image: prev.image === prev.images[index] ? prev.images[0] : prev.image
-      } : null);
+      setProject(prev => {
+        if (!prev) return null;
+        const nextImages = prev.images.filter((_, i) => i !== index);
+        return {
+          ...prev,
+          images: nextImages,
+          // 删除后主图始终为第一张图片
+          image: nextImages[0]
+        };
+      });
     };
     
     // 保存项目修改
@@ -196,9 +208,15 @@ import { useState, useEffect, useContext } from 'react';
         // 获取现有项目列表
         const projects = getPortfolioItems();
         
+        // 确保主图与图片列表保持同步
+        const normalizedProject: PortfolioItem = {
+          ...project,
+          image: project.images[0] || project.image
+        };
+
         // 更新项目
         const updatedProjects = projects.map(item => 
-          item.id === project.id ? project : item
+          item.id === normalizedProject.id ? normalizedProject : item
         );
         
         // 使用数据服务保存
