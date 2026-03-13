@@ -144,7 +144,7 @@ import { AuthContext } from '@/contexts/authContext';
                 </span>
               </div>
               <h1 className="text-3xl font-bold mb-4">{project.title}</h1>
-              <p className={`text-lg mb-6 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
+              <p className={`text-lg mb-6 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'} whitespace-pre-line`}>
                 {project.description}
               </p>
             </div>
@@ -229,7 +229,7 @@ import { AuthContext } from '@/contexts/authContext';
               transition={{ duration: 0.6, delay: 0.3 }}
             >
               <h2 className="text-2xl font-semibold mb-4">项目概述</h2>
-              <p className={theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}>
+              <p className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'} whitespace-pre-line`}>
                 {project.details.overview}
               </p>
             </motion.section>
@@ -298,7 +298,7 @@ import { AuthContext } from '@/contexts/authContext';
               transition={{ duration: 0.6, delay: 0.6 }}
             >
               <h2 className="text-2xl font-semibold mb-4">项目成果</h2>
-              <p className={theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}>
+              <p className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'} whitespace-pre-line`}>
                 {project.details.results}
               </p>
             </motion.section>
