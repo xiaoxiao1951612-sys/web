@@ -68,7 +68,7 @@ export const AIAssistantFloatingButton = () => {
             </AnimatePresence>
             <motion.button
                 onClick={toggleAssistant}
-                className={`w-14 h-14 rounded-full flex items-center justify-center shadow-lg z-50 transition-all duration-300 ${isOpen ? "bg-purple-700" : "bg-purple-600 hover:bg-purple-700"}`}
+                className={`w-18 h-18 rounded-full flex items-center justify-center shadow-lg z-50 transition-all duration-300 ${isOpen ? "bg-purple-700" : "bg-purple-600 hover:bg-purple-700"}`}
                 whileHover={{
                     scale: 1.05
                 }}
@@ -85,7 +85,7 @@ export const AIAssistantFloatingButton = () => {
                     delay: 0.5
                 }}
                 aria-label="打开AI助手">
-                {isOpen ? <X size={24} className="text-white" /> : <span className="text-white text-xl font-bold">AI</span>}
+                {isOpen ? <X size={28} className="text-white" /> : <span className="text-white text-2xl font-bold">AI</span>}
             </motion.button>
         </div>
     );
