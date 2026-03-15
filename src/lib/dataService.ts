@@ -176,21 +176,24 @@ export const getDefaultData = (): ResumeData => {
         category: "项目",
         description: "针对自动驾驶测试中的数据采集分散、命令行复杂、回放困难等问题，主导设计统一Web控制台",
         date: "2025.10 - 2026.1",
-        image: "https://space.coze.cn/api/coze_space/gen_image?image_size=landscape_16_9&prompt=smart%20driving%20data%20platform%20dashboard&sign=2d496870621531338d20d62f7d3d553b",
+        image: "/picture/自动化数据采集平台/placeholder.png",
         images: [
-          "https://space.coze.cn/api/coze_space/gen_image?image_size=landscape_16_9&prompt=smart%20driving%20data%20platform%20dashboard&sign=2d496870621531338d20d62f7d3d553b",
-          "https://space.coze.cn/api/coze_space/gen_image?image_size=landscape_16_9&prompt=autonomous%20driving%20data%20visualization&sign=484429ad113d45b955b5ecc71919f929",
-          "https://space.coze.cn/api/coze_space/gen_image?image_size=landscape_16_9&prompt=AI%20data%20analysis%20dashboard&sign=ebb1e6166ed2fa2b963a509d15d6ae82"
+          "/picture/自动化数据采集平台/数采 (1).png",
+          "/picture/自动化数据采集平台/数采 (2).png",
+          "/picture/自动化数据采集平台/数采 (3).png",
+          "/picture/自动化数据采集平台/数采 (4).png",
+          "/picture/自动化数据采集平台/数采 (5).png",
+          "/picture/自动化数据采集平台/数采 (6).png"
         ],
         details: {
-          overview: "针对自动驾驶测试中数据链路复杂、工具门槛高等痛点，主导设计了统一Web控制台。该方案将采集控制、录制回放及感知分析等全流程抽象为标准化任务流，用户仅需填写bagPath即可完成复杂配置，实现数据管理效率超300%的提升；同时结合Three.js与roslib.js实现点云、图像等多传感数据的融合可视化，并设计AI运维助手对运行日志进行智能解析与异常归因，大幅降低了非技术人员的使用门槛，显著提升了数据排查与场景复现的效率。",
+          overview: "聚焦自动驾驶研发测试与数据闭环场景。在路测数据采集、算法迭代验证、问题追溯复现等环节，工程师需要频繁处理海量的传感器数据（如激光点云、图像）、复杂的ROS通信链路以及繁琐的配置参数，传统工具链往往分散且技术门槛高。\n\n解决什么问题？\n核心解决\"数据链路复杂、工具门槛高\"两大痛点。具体来说：一是传统流程中采集、录制、回放、分析各环节割裂，配置繁琐，非专业人员难以快速上手；二是多传感数据可视化不直观，问题排查依赖手动翻查日志，效率低下；三是环境搭建和参数配置耗时，拖累数据迭代速度。\n\n怎么做？\n主导设计了一套统一的Web控制台。首先，将采集控制、录制回放、感知分析等全流程抽象为标准化任务流，用户只需填写\"bagPath\"（数据包路径）即可自动完成复杂的环境配置和参数加载。其次，基于Three.js和roslib.js实现点云、图像等多传感数据的融合可视化，让数据更直观。最后，引入AI运维助手，对运行日志进行智能解析和异常归因，自动定位问题根因，大幅降低排查门槛。\n\n效果如何？\n该方案实现了数据管理效率超300%的提升。标准化任务流将原本需要数小时的配置工作压缩至分钟级，AI运维助手让非技术人员也能快速定位数据异常，显著提升了数据排查与场景复现的效率，有效支撑了自动驾驶算法的快速迭代。",
           features: [
             "数据链路产品化： 针对自动驾驶测试中的数据采集分散、命令行复杂、回放困难等问题，主导设计统一Web控制台，将采集控制、录制回放、落盘同步、感知分析等数据全链路操作抽象为标准化任务流，数据管理效率提升超300%。",
             "可视化设计： 结合Three.js+roslib.js设计多传感器数据统一可视化方案，将点云、图像、轨迹等异构数据融合展示在单一页面，帮助用户直观完成问题定位与场景复现，提升数据排查效率。",
             "AI运维助手设计： 设计AI运维助手产品功能，基于本地知识库对海量运行日志进行智能解析，实现异常模式自动归类与FAQ式建议推送。 将“ROS指令+Bash脚本”的复杂底层操作封装为简单的表单输入，用户仅需填写bagPath即可完成全流程任务配置，大幅降低非技术人员的工具使用门槛。"
           ],
           technologies: ["React", "Three.js", "Node.js", "MongoDB"],
-          results: "成功将数据采集效率提升300%，AI辅助日志分析准确率达到92%，团队整体工作效率提升显著。且有一项软件著作在申。"
+          results: "成功将数据采集效率提升300%，一项软件著作在申。"
         }
       },
       {
@@ -199,14 +202,17 @@ export const getDefaultData = (): ResumeData => {
         category: "项目",
         description: "为解决水陆接驳体验割裂的用户痛点，确立“水陆观光接驳一体化”产品方向。 借助上海内河网络，推出模块化水陆两栖观光系统，将城市通勤升级为沉浸式水上旅游新体验。",
         date: "2022.09 - 2023.06",
-        image: "https://space.coze.cn/api/coze_space/gen_image?image_size=landscape_16_9&prompt=market%20research%20analysis%20dashboard&sign=b9d2a5c54a855ac9e285de4b544429b5",
+        image: "/picture/hydro lounge 一体化出行服务载具/hylo (0).png",
         images: [
-          "https://space.coze.cn/api/coze_space/gen_image?image_size=landscape_16_9&prompt=market%20research%20analysis%20dashboard&sign=b9d2a5c54a855ac9e285de4b544429b5",
-          "https://space.coze.cn/api/coze_space/gen_image?image_size=landscape_16_9&prompt=user%20survey%20data%20visualization&sign=c714102022bd1b4311053cee07fc2f55",
-          "https://space.coze.cn/api/coze_space/gen_image?image_size=landscape_16_9&prompt=user%20persona%20creation&sign=923d759f61b5d5e0943c701e7e14d4ca"
+          "/picture/hydro lounge 一体化出行服务载具/hylo (0).png",
+          "/picture/hydro lounge 一体化出行服务载具/hylo (1).jpg",
+          "/picture/hydro lounge 一体化出行服务载具/hylo (2).png",
+          "/picture/hydro lounge 一体化出行服务载具/hylo (3).png",
+          "/picture/hydro lounge 一体化出行服务载具/hylo (4).png",
+          "/picture/hydro lounge 一体化出行服务载具/hylo (5).png"
         ],
         details: {
-          overview: "基于上海陆路交通趋于饱和，水陆换乘体验差的问题，设计团队利用黄浦江等丰富但未充分开发的内河资源，提出将部分交通转移至水上的旅游解决方案。为此，我们设计了一款模块化水陆两栖交通系统。该系统由可分离的乘坐舱与功能载体构成：乘坐舱是连接水陆的纽带，可搭配不同的陆上或水上载体运行。在水上，多个乘坐舱可连接组合，既可保持社交距离，也能满足家庭出游、水上会议等多样化需求。内饰方面，乘坐舱采用悬浮式座椅，配合光影与投影效果，营造漂浮水面的沉浸体验。用户还可通过APP定制外部载体，集成瑜伽、钓鱼、餐饮等模块，使这一交通工具更具普适性，服务不同人群。",
+          overview: "聚焦上海外滩及黄浦江沿岸的核心水域与陆域交汇处。当前这些区域水陆交通割裂——游客在外滩看完夜景想换乘游船，往往需要长距离步行、重复购票、长时间等待，导致水陆联游体验差、效率低。\n\n解决什么问题？\n核心解决\"水陆接驳体验割裂\"的痛点。具体来说：一是物理衔接不畅，水陆换乘动线混乱；二是功能单一，现有游船无法满足家庭出游、水上会议、瑜伽健身等多样化需求；三是资源闲置，黄浦江丰富的内河资源未被充分用于缓解陆上交通压力。\n\n怎么做？\n设计了一套模块化水陆两栖交通系统。乘坐舱可分离，既能搭配陆上底盘行驶，也能连接水上浮体航行；水上时可多舱组合，满足社交距离、家庭聚会等不同场景。内饰采用悬浮式座椅，配合光影营造沉浸体验；用户可通过APP定制瑜伽、钓鱼、餐饮等外部载体模块，实现\"交通工具+场景空间\"的融合。团队还完成了150+份问卷调研、用户流程图设计、成本收益测算及展示视频制作，从市场、体验、商业三端同步验证。\n\n效果如何？\n通过动线优化和交互升级，预计单次出行效率提升40%；模块化设计降低了单一功能的运营成本，票价组合与增值模块（广告、联名）带来多元收益；更重要的是，将部分陆上交通转移至水上，为上海陆路交通趋于饱和提供了可落地的分流方案。",
           features: [
             "市场调研与产品定义： 深入调研上海外滩水域交通现状，通过150+份用户问卷与访谈数据，构建核心用户画像，精准锚定“水陆接驳体验割裂”的用户痛点，确立“水陆观光接驳一体化”产品方向。",
             "体验设计与效率提升： 设计模块化载具端到端使用流程，输出用户流程图及交互方案，通过动线优化与关键节点交互升级，实现水陆无缝切换，预计提升单次出行效率40%。",
@@ -222,14 +228,17 @@ export const getDefaultData = (): ResumeData => {
         category: "论文",
         description: "针对智驾仿真中背景车过于理性的问题，本文提出了一种基于意图误判的可控交通流生成方法，能够有效生成高交互性和高风险的测试场景。",
         date: "2025.09 - 2025.11",
-        image: "https://space.coze.cn/api/coze_space/gen_image?image_size=landscape_16_9&prompt=autonomous%20driving%20sensor%20evaluation&sign=d61b92c62784264fc624d475dfe44c5c",
+        image: "/picture/基于意图误判的可控背景交通流仿真/placeholder.png",
         images: [
-          "https://space.coze.cn/api/coze_space/gen_image?image_size=landscape_16_9&prompt=autonomous%20driving%20sensor%20evaluation&sign=d61b92c62784264fc624d475dfe44c5c",
-          "https://space.coze.cn/api/coze_space/gen_image?image_size=landscape_16_9&prompt=testing%20scenarios%20in%20rainy%20conditions&sign=34059d99fdcdd92317e6191e9925aff6",
-          "https://space.coze.cn/api/coze_space/gen_image?image_size=landscape_16_9&prompt=performance%20metrics%20dashboard&sign=5d6b3d26f74c5174d78ac441a9a981a3"
+          "/picture/基于意图误判的可控背景交通流仿真/误判图1.png",
+          "/picture/基于意图误判的可控背景交通流仿真/误判图2.png",
+          "/picture/基于意图误判的可控背景交通流仿真/误判图3.png",
+          "/picture/基于意图误判的可控背景交通流仿真/误判图4.png",
+          "/picture/基于意图误判的可控背景交通流仿真/误判图5.png",
+          "/picture/基于意图误判的可控背景交通流仿真/误判图6.png"
         ],
         details: {
-          overview: "本文提出了一种基于意图判断的可控交通流生成方法，通过transfomer+Bilstm架构模拟背景车辆对主车意图的误判，能够有效生成高交互性和高风险的测试场景，实验显示其生成场景的事故率达正常场景的1.69倍。",
+          overview: "这项技术聚焦于自动驾驶路测中那些\"差点出事\"的高危交互瞬间。比如，当主车准备变道或减速转弯时，周围的背景车却误判了主车的意图——本该让行的它反而加速抢行，导致两车逼近危险距离。这类因\"意图误解\"引发的博弈场景，正是现实交通事故的主要诱因。\n\n解决什么问题？\n它要解决的是自动驾驶测试中\"危险场景难复现、人类司机难配合\"的痛点。真实路测很难遇到且不敢重复测试这类高风险场景，而传统仿真又过于规矩，无法模拟人类驾驶员\"误判\"和\"不配合\"的非理性行为，导致自动驾驶系统缺乏足够的对抗训练，安全隐患难以暴露。\n\n怎么做？\n研究团队设计了一个\"会读心也会使坏\"的交通流生成模型。该模型采用编码器-解码器架构：编码器负责分析主车与周围车辆的动态关系，解码器则据此生成每辆背景车的未来轨迹。最关键的是，模型引入了\"意图判断调节参数\"，可以人为控制背景车对主车意图的误解程度，从而系统性地制造出各种\"误判型\"高风险场景。\n\n效果如何？\n在多模态仿真和闭环测试中，该模型生成的交互场景事故率显著上升，达到正常场景的1.69倍。这意味着，它成功将自动驾驶系统置于更严苛的\"压力测试\"环境中，有效暴露了系统在意图博弈中的决策短板，为提升自动驾驶的安全冗余提供了实用的验证手段。",
           features: [
             "高效的“场景挖掘机”：能够主动、可控地生成大量因“意图误判”导致的高风险场景，解决了真实路测中这类危险场景难以遇见的痛点，大幅提升算法迭代效率。",
             "可配置的“变量调节器”：通过调节意图判断的参数，可以系统性地模拟从“谨慎保守”到“激进误判”的连续交互行为，为产品定义不同风格的测试工况提供了灵活的工程工具。",
@@ -245,14 +254,17 @@ export const getDefaultData = (): ResumeData => {
         category: "项目",
         description: "2019年新冠疫情爆发，为了防止工作人员感染，我们让以“BEE”命名的无人机探测公共区域，找出体温异常的人。因此，我们可以及时发现和隔离疑似病例。",
         date: "2021.03 - 2022.6",
-        image: "https://space.coze.cn/api/coze_space/gen_image?image_size=landscape_16_9&prompt=smart%20city%20data%20platform&sign=b6239451e0274592647b840f0d43113b",
+        image: "/picture/BEE测温无人机/BEE (0).png",
         images: [
-          "https://space.coze.cn/api/coze_space/gen_image?image_size=landscape_16_9&prompt=smart%20city%20data%20platform&sign=b6239451e0274592647b840f0d43113b",
-          "https://space.coze.cn/api/coze_space/gen_image?image_size=landscape_16_9&prompt=data%20center%20architecture&sign=181eeaf8576296d0782ce73cc311a8dc",
-          "https://space.coze.cn/api/coze_space/gen_image?image_size=landscape_16_9&prompt=IoT%20sensors%20network&sign=8f0e02ea55ea3b5f688efffeef000946"
+          "/picture/BEE测温无人机/BEE (0).png",
+          "/picture/BEE测温无人机/BEE (1).png",
+          "/picture/BEE测温无人机/BEE (2).png",
+          "/picture/BEE测温无人机/BEE (3).png",
+          "/picture/BEE测温无人机/BEE (4).png",
+          "/picture/BEE测温无人机/BEE (5).png"
         ],
         details: {
-          overview: "自新冠疫情爆发以来，非接触式测温和大范围人员监测成为疫情防控的关键手段。传统的固定式测温枪或立式测温门存在效率低下、人员聚集风险高、覆盖范围有限等问题。在此背景下，本项目旨在利用无人机的高机动性与灵活性，结合红外热成像技术和移动互联网应用，打造一套“空中移动哨兵”系统，实现对区域内人员的高效体温筛查与行为监测，降低交叉感染风险，提升防疫管理的智能化水平。",
+          overview: "聚焦社区、园区、交通枢纽等人员流动密集的公共区域。在疫情防控期间，这些场所需要对大范围流动人员进行体温筛查和行为监测，但传统的固定测温点容易造成人员聚集排队，且覆盖范围有限，难以应对突发性人流变化。\n\n解决什么问题？\n核心解决\"固定式测温效率低与人员聚集风险高\"的矛盾。具体来说：一是传统测温枪和立式测温门需要人员逐个通过，效率低下；二是固定点位容易形成排队聚集，反而增加交叉感染风险；三是固定设备覆盖范围有限，无法对园区、社区等大范围区域进行机动巡查和实时监测。\n\n怎么做？\n研发一套\"空中移动哨兵\"无人机测温系统。利用无人机搭载红外热成像模组，对区域内人员进行非接触式远距离测温，同时通过机载AI实现人脸检测与行为识别（如口罩佩戴、人员聚集）。无人机可按照预设航线自动巡航，发现体温异常或违规行为时，实时回传告警信息至管理后台，并通过移动端APP通知一线防疫人员精准处置，实现\"空中巡查—智能识别—实时预警—快速处置\"的全流程闭环。\n\n效果如何？\n相比传统固定点测温，无人机机动巡检大幅提升了覆盖范围和响应速度，单次飞行可完成数千平方米区域的人员筛查，有效避免了人员聚集排队带来的交叉感染风险；同时，智能化的行为监测（如口罩识别、聚集预警）减轻了一线人员的值守压力，提升了防疫管理的精准度和智能化水平。",
           features: [
             "非接触广域测温： 利用无人机搭载红外热成像镜头，在人群上方进行远距离、大范围的移动测温。",
             "实时预警与定位： 自动识别体温异常人员，并实时记录其位置信息。",
@@ -452,14 +464,12 @@ export const savePortfolioItems = async (data: PortfolioItem[]): Promise<boolean
       portfolioItems: data
     };
 
-    // 先尝试写入本地缓存（即使失败也继续）
-    writeCache(current);
-    
     // 尝试保存到 Supabase 数据库
     const remoteSuccess = await pushRemoteResumeData(current);
     
-    // 即使本地缓存失败，只要远程保存成功，就返回 true
+    // 只有远程保存成功后，才更新本地缓存
     if (remoteSuccess) {
+      writeCache(current);
       notifyDataUpdate('portfolioItems');
       return true;
     } else {
@@ -486,18 +496,39 @@ export const resetAllData = async (): Promise<boolean> => {
   }
 };
 
-// 检查 Supabase Storage 桶是否存在
+// 检查 Supabase Storage 桶是否存在，如果不存在则创建
 export const checkStorageBucket = async (bucketName: string): Promise<boolean> => {
-  const hasConfig =
+  const hasConfig = 
     !!import.meta.env.VITE_SUPABASE_URL && !!import.meta.env.VITE_SUPABASE_ANON_KEY;
   if (!hasConfig) return false;
 
   try {
+    // 检查存储桶是否存在
     const { data, error } = await supabase.storage.getBucket(bucketName);
+    
     if (error) {
-      console.error(`[Supabase] 检查存储桶 ${bucketName} 失败:`, error);
-      return false;
+      // 如果存储桶不存在，尝试创建
+      if (error.code === 'storage/bucket-not-found') {
+        console.log(`[Supabase] 存储桶 ${bucketName} 不存在，尝试创建...`);
+        const { error: createError } = await supabase.storage.createBucket(bucketName, {
+          public: true,
+          allowedMimeTypes: ['image/jpeg', 'image/png', 'image/webp', 'image/gif'],
+          fileSizeLimit: 5 * 1024 * 1024 // 5MB
+        });
+        
+        if (createError) {
+          console.error(`[Supabase] 创建存储桶 ${bucketName} 失败:`, createError);
+          return false;
+        }
+        console.log(`[Supabase] 存储桶 ${bucketName} 创建成功`);
+        return true;
+      } else {
+        console.error(`[Supabase] 检查存储桶 ${bucketName} 失败:`, error);
+        return false;
+      }
     }
+    
+    console.log(`[Supabase] 存储桶 ${bucketName} 存在`);
     return true;
   } catch (error) {
     console.error(`[Supabase] 检查存储桶 ${bucketName} 时出错:`, error);
