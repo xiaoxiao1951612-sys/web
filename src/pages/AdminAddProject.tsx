@@ -6,7 +6,7 @@ import { useState, useContext, useEffect } from 'react';
   import { AuthContext } from '@/contexts/authContext';
   import { toast } from 'sonner';
   import { supabase } from '@/lib/supabaseClient';
-  import { PortfolioItem, getPortfolioItems, refreshResumeData, savePortfolioItems } from '@/lib/dataService';
+  import { PortfolioItem, getPortfolioItems, refreshResumeData, savePortfolioItems, checkStorageBucket } from '@/lib/dataService';
 
   export default function AdminAddProject() {
     const navigate = useNavigate();
@@ -48,6 +48,12 @@ import { useState, useContext, useEffect } from 'react';
         const projects = getPortfolioItems();
         const maxId = projects.length > 0 ? Math.max(...projects.map(p => p.id)) : 0;
         setProject(prev => ({ ...prev, id: maxId + 1 }));
+        
+        // 检查 Supabase Storage 桶是否存在
+        const bucketExists = await checkStorageBucket('portfolio-images');
+        if (!bucketExists) {
+          console.warn('Supabase Storage 桶 "portfolio-images" 不存在或无法访问');
+        }
       };
       init();
     }, [navigate, isAuthenticated]);
@@ -149,69 +155,44 @@ import { useState, useContext, useEffect } from 'react';
         }
         
         try {
-          // 先创建文件读取器，用于本地预览
-          const reader = new FileReader();
-          reader.readAsDataURL(file);
+          // 创建唯一的文件名
+          const fileName = `portfolio/${Date.now()}-${Math.random().toString(36).substr(2, 9)}-${file.name}`;
           
-          // 尝试上传到Supabase Storage
-          try {
-            // 创建唯一的文件名
-            const fileName = `portfolio/${Date.now()}-${Math.random().toString(36).substr(2, 9)}-${file.name}`;
-            
-            // 上传图片到Supabase Storage
-            const { data, error } = await supabase
-              .storage
-              .from('portfolio-images')
-              .upload(fileName, file, {
-                cacheControl: '3600',
-                upsert: false
-              });
-            
-            if (error) {
-              console.error('上传图片到Supabase失败:', error);
-              throw error;
-            }
-            
-            // 获取公共URL
-            const { data: urlData } = supabase
-              .storage
-              .from('portfolio-images')
-              .getPublicUrl(fileName);
-            
-            const imageUrl = urlData.publicUrl;
-            
-            setProject(prev => ({
-              ...prev,
-              images: [...prev.images, imageUrl],
-              // 如果是第一张图片，同时设置为主图
-              image: prev.images.length === 0 ? imageUrl : prev.image
-            }));
-            
-            // 显示预览并3秒后清除预览
-            setPreviewImage(imageUrl);
-            setTimeout(() => setPreviewImage(null), 3000);
-            
-            toast.success('图片上传成功！');
-          } catch (storageError) {
-            console.error('Supabase Storage上传失败，使用本地存储作为后备:', storageError);
-            
-            // 使用本地存储作为后备方案
-            reader.onload = (event) => {
-              const imageUrl = event.target?.result as string;
-              setProject(prev => ({
-                ...prev,
-                images: [...prev.images, imageUrl],
-                // 如果是第一张图片，同时设置为主图
-                image: prev.images.length === 0 ? imageUrl : prev.image
-              }));
-              
-              // 显示预览并3秒后清除预览
-              setPreviewImage(imageUrl);
-              setTimeout(() => setPreviewImage(null), 3000);
-              
-              toast.success('图片已保存到本地！');
-            };
+          // 上传图片到Supabase Storage
+          const { data, error } = await supabase
+            .storage
+            .from('portfolio-images')
+            .upload(fileName, file, {
+              cacheControl: '3600',
+              upsert: false
+            });
+          
+          if (error) {
+            console.error('上传图片到Supabase失败:', error);
+            toast.error('上传图片失败: ' + error.message);
+            return;
           }
+          
+          // 获取公共URL
+          const { data: urlData } = supabase
+            .storage
+            .from('portfolio-images')
+            .getPublicUrl(fileName);
+          
+          const imageUrl = urlData.publicUrl;
+          
+          setProject(prev => ({
+            ...prev,
+            images: [...prev.images, imageUrl],
+            // 如果是第一张图片，同时设置为主图
+            image: prev.images.length === 0 ? imageUrl : prev.image
+          }));
+          
+          // 显示预览并3秒后清除预览
+          setPreviewImage(imageUrl);
+          setTimeout(() => setPreviewImage(null), 3000);
+          
+          toast.success('图片上传成功！');
         } catch (error) {
           console.error('上传图片过程中出错:', error);
           toast.error('图片保存失败，请重试');

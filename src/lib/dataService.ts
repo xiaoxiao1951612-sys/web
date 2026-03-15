@@ -451,3 +451,22 @@ export const resetAllData = async (): Promise<boolean> => {
     return false;
   }
 };
+
+// 检查 Supabase Storage 桶是否存在
+export const checkStorageBucket = async (bucketName: string): Promise<boolean> => {
+  const hasConfig =
+    !!import.meta.env.VITE_SUPABASE_URL && !!import.meta.env.VITE_SUPABASE_ANON_KEY;
+  if (!hasConfig) return false;
+
+  try {
+    const { data, error } = await supabase.storage.getBucket(bucketName);
+    if (error) {
+      console.error(`[Supabase] 检查存储桶 ${bucketName} 失败:`, error);
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error(`[Supabase] 检查存储桶 ${bucketName} 时出错:`, error);
+    return false;
+  }
+};
