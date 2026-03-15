@@ -268,10 +268,35 @@ export const getDefaultData = (): ResumeData => {
 };
 
 const writeCache = (data: ResumeData) => {
-  localStorage.setItem(CACHE_PERSONAL_INFO_KEY, JSON.stringify(data.personalInfo));
-  localStorage.setItem(CACHE_EXPERIENCES_KEY, JSON.stringify(data.experiences));
-  localStorage.setItem(CACHE_PORTFOLIO_ITEMS_KEY, JSON.stringify(data.portfolioItems));
-  localStorage.setItem(CACHE_LAST_SYNC_AT_KEY, String(Date.now()));
+  try {
+    // 尝试清除旧缓存
+    localStorage.removeItem(CACHE_PERSONAL_INFO_KEY);
+    localStorage.removeItem(CACHE_EXPERIENCES_KEY);
+    localStorage.removeItem(CACHE_PORTFOLIO_ITEMS_KEY);
+    localStorage.removeItem(CACHE_LAST_SYNC_AT_KEY);
+    
+    // 重新存储数据
+    localStorage.setItem(CACHE_PERSONAL_INFO_KEY, JSON.stringify(data.personalInfo));
+    localStorage.setItem(CACHE_EXPERIENCES_KEY, JSON.stringify(data.experiences));
+    localStorage.setItem(CACHE_PORTFOLIO_ITEMS_KEY, JSON.stringify(data.portfolioItems));
+    localStorage.setItem(CACHE_LAST_SYNC_AT_KEY, String(Date.now()));
+  } catch (error) {
+    console.error('写入本地缓存失败:', error);
+    // 如果是存储空间不足错误，尝试清理缓存
+    if (error instanceof DOMException && error.name === 'QuotaExceededError') {
+      console.warn('本地存储空间不足，清理缓存...');
+      try {
+        // 只保留最新的项目数据，清除其他缓存
+        localStorage.clear();
+        // 重新尝试存储
+        localStorage.setItem(CACHE_PORTFOLIO_ITEMS_KEY, JSON.stringify(data.portfolioItems));
+        localStorage.setItem(CACHE_LAST_SYNC_AT_KEY, String(Date.now()));
+        console.warn('缓存清理成功，只保留了项目数据');
+      } catch (cleanupError) {
+        console.error('清理缓存失败:', cleanupError);
+      }
+    }
+  }
 };
 
 const ensureCacheInitialized = () => {
@@ -427,11 +452,20 @@ export const savePortfolioItems = async (data: PortfolioItem[]): Promise<boolean
       portfolioItems: data
     };
 
+    // 先尝试写入本地缓存（即使失败也继续）
     writeCache(current);
-    await pushRemoteResumeData(current);
-
-    notifyDataUpdate('portfolioItems');
-    return true;
+    
+    // 尝试保存到 Supabase 数据库
+    const remoteSuccess = await pushRemoteResumeData(current);
+    
+    // 即使本地缓存失败，只要远程保存成功，就返回 true
+    if (remoteSuccess) {
+      notifyDataUpdate('portfolioItems');
+      return true;
+    } else {
+      // 如果远程保存失败，返回 false
+      throw new Error('远程保存失败');
+    }
   } catch (error) {
     console.error('保存项目数据失败:', error);
     return false;
